@@ -1,14 +1,36 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      AutoPorto
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <ion-grid justify-content-center align-items-center style='height: 100%'>
+    <ion-row justify-content-center align-items-center style='height: 100%'>
+      <ion-col col-12>
+        <form (ngSubmit)="submitSearch($event)">
+          <ion-searchbar #stopInput [(ngModel)]="searchQuery" [ngModelOptions]="{standalone: true}"
+            [showCancelButton]="true" placeholder="Código da paragem" (ionCancel)="clearSearch($event)">
+          </ion-searchbar>
+        </form>
+        <ng-container *ngIf="listStops.length > 0">
+          <ion-card *ngFor="let item of listStops">
+            <ion-card-content>
+              <ion-card-title>
+                {{ item.title }}
+              </ion-card-title>
+              <ion-list *ngFor="let bus of item.buses">
+                <ion-row>
+                  <ion-col size="auto">{{ bus.destination }}</ion-col>
+                  <ion-col size="auto">{{ bus.time }}</ion-col>
+                </ion-row>
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
