@@ -16,8 +16,8 @@ export class HomePage {
     this.searchedStops = [];
     
     setInterval(() => {
-      this.refreshStops;
-    }, 5000);
+      this.refreshStops();
+    }, 15000);
   }
 
   submitSearch(e) {
