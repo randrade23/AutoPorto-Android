@@ -30,13 +30,20 @@
                   </span>
                 </ng-container>
               </ion-card-title>
-              <ion-list *ngFor="let bus of item.buses">
-                <ion-row>
-                  <ion-col size="1" class="line"><span>{{ bus.line }}</span></ion-col>
-                  <ion-col size="9" class="destination"><span>{{ bus.destination }}</span></ion-col>
-                  <ion-col size="2" class="time">{{ bus.time }}</ion-col>
-                </ion-row>
-              </ion-list>
+              <ng-container *ngIf="item.buses.length > 0">
+                <ion-list *ngFor="let bus of item.buses">
+                  <ion-row>
+                    <ion-col size="1" class="line"><span>{{ bus.line }}</span></ion-col>
+                    <ion-col size="9" class="destination"><span>{{ bus.destination }}</span></ion-col>
+                    <ion-col size="2" class="time">{{ bus.time }}</ion-col>
+                  </ion-row>
+                </ion-list>
+              </ng-container>
+              <ng-container *ngIf="item.buses.length == 0">
+                <span>
+                  Não há autocarros previstos para esta paragem nos próximos 60 minutos
+                </span>
+              </ng-container>
             </ion-card-content>
           </ion-card>
         </ng-container>
