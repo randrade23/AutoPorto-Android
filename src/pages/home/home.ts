@@ -37,6 +37,14 @@ export class HomePage {
 
   refreshStops() {
     this.searchedStops.forEach((stop : string, idx, arr) => {
+      var result = this.listStops.find((element, index, obj) => element.title == stop);
+      var resultExists = !(result == undefined);
+
+      if (result == undefined) result = { title: stop, buses: [], newBuses: [], isRefreshing: true };
+
+      if (!resultExists) this.listStops.push(result);
+      else result.isRefreshing = true;
+
       this.stopProvider.getStop(stop)
         .then((response : any) => {
           var data = response.data;
@@ -44,21 +52,25 @@ export class HomePage {
           var parser = new DOMParser();
           var htmlDoc = parser.parseFromString(data, 'text/html');
           
-          var result = this.listStops.find((element, index, obj) => element.title == stop);
-          var resultExists = !(result == undefined);
-
-          if (result == undefined) result = { title: stop, buses: [] };
-          else result.buses = [];
-          
           var tableRows : HTMLTableRowElement[] = Array.from(htmlDoc.querySelectorAll('tr.even'));
           tableRows.forEach((row : HTMLTableRowElement, i, tr) => {
             var line = row.querySelectorAll("td > ul > li > a")[0].innerHTML.trim();
             var time = row.querySelectorAll("td > i")[0].innerHTML.trim();
-            result.buses.push({time, line});
+            var destination = row.querySelectorAll("td")[0].innerText
+                              .replace(line, "")
+                              .replace(time, "")
+                              .replace("-", "")
+                              .trim()
+                              .toLocaleLowerCase();
+            result.newBuses.push({time, line, destination});
           });
 
+          result.buses = result.newBuses;
+          result.newBuses = [];
+          
+          result.isRefreshing = false;
+
           console.log(result);
-          if (!resultExists) this.listStops.push(result);
         })
     });
   }

@@ -1,3 +1,35 @@
 page-home {
 
 }
+
+ion-card-title {
+    padding-bottom: 20px !important;
+}
+
+span.spinner > div {
+    float: right;
+}
+
+ion-col.line, ion-col.destination {
+    text-align: left;
+}
+
+ion-col.line > span {
+    background-color: #6e6e6e;
+    font-style: bold;
+    color: white;
+    border: 1px solid black;
+    padding: 4px;
+}
+
+ion-col.destination > span {
+    text-transform: capitalize;
+}
+
+ion-col.time {
+    text-align: right;
+}
+
+ion-row {
+    min-height: 27px;
+}
