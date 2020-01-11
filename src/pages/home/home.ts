@@ -52,8 +52,8 @@ export class HomePage {
           
           var tableRows : HTMLTableRowElement[] = Array.from(htmlDoc.querySelectorAll('tr.even'));
           tableRows.forEach((row : HTMLTableRowElement, i, tr) => {
-            var line = row.querySelectorAll("td > ul > li > a")[0].innerHTML;
-            var time = row.querySelectorAll("td > i")[0].innerHTML;
+            var line = row.querySelectorAll("td > ul > li > a")[0].innerHTML.trim();
+            var time = row.querySelectorAll("td > i")[0].innerHTML.trim();
             result.buses.push({time, line});
           });
 
