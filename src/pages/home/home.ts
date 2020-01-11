@@ -25,7 +25,7 @@ export class HomePage {
     
     if (this.searchedStops.indexOf(stop) == -1) {
       this.searchedStops.push(stop);
-      this.refreshStops();
+      this.refreshStops(stop);
     }
 
     this.stopInput.value = "";
@@ -35,8 +35,10 @@ export class HomePage {
     this.stopInput.value = "";
   }
 
-  refreshStops() {
+  refreshStops(target? : string) {
     this.searchedStops.forEach((stop : string, idx, arr) => {
+      if (target && target != stop) return;
+
       var result = this.listStops.find((element, index, obj) => element.title == stop);
       var resultExists = !(result == undefined);
 
@@ -67,7 +69,7 @@ export class HomePage {
 
           result.buses = result.newBuses;
           result.newBuses = [];
-          
+
           result.isRefreshing = false;
 
           console.log(result);
