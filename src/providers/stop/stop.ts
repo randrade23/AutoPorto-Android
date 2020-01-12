@@ -1,4 +1,4 @@
-import { HTTP } from '@ionic-native/http';
+import { HTTP, HTTPResponse } from '@ionic-native/http';
 
 import { Injectable } from '@angular/core';
 
@@ -19,8 +19,28 @@ export class StopProvider {
   getStop(stop : string) {
     return new Promise(resolve => {
       this.http.get(this.BASE_STCP_URL + stop, {}, {})
-        .then(data => {
-          resolve(data);
+        .then((response : HTTPResponse) => {
+          var data = response.data;
+
+          var newBuses = [];
+
+          var parser = new DOMParser();
+          var htmlDoc = parser.parseFromString(data, 'text/html');
+          
+          var tableRows : HTMLTableRowElement[] = Array.from(htmlDoc.querySelectorAll('tr.even'));
+          tableRows.forEach((row : HTMLTableRowElement, i, tr) => {
+            var line = row.querySelectorAll("td > ul > li > a")[0].innerHTML.trim();
+            var time = row.querySelectorAll("td > i")[0].innerHTML.trim();
+            var destination = row.querySelectorAll("td")[0].innerText
+                              .replace(line, "")
+                              .replace(time, "")
+                              .replace("-", "")
+                              .trim()
+                              .toLocaleLowerCase();
+            newBuses.push({time, line, destination});
+          });
+
+          resolve(newBuses);
         }, err => {
           console.log(err);
         });

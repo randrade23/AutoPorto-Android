@@ -37,41 +37,25 @@ export class HomePage {
 
   refreshStops(target? : string) {
     this.searchedStops.forEach((stop : string, idx, arr) => {
+      // Skip if just asked to refresh a particular stop and if this one isn't it
       if (target && target != stop) return;
 
+      // Check if we already have this stop in the list (i.e. if stop card is already visible)
       var result = this.listStops.find((element, index, obj) => element.title == stop);
       var resultExists = !(result == undefined);
 
-      if (result == undefined) result = { title: stop, buses: [], newBuses: [], isRefreshing: true };
+      // Instantiate new stop card
+      if (result == undefined) result = { title: stop, buses: [], isRefreshing: true };
 
+      // Add to stops list, this will show a partially loaded card on screen
       if (!resultExists) this.listStops.push(result);
       else result.isRefreshing = true;
 
+      // Request next buses information
       this.stopProvider.getStop(stop)
-        .then((response : any) => {
-          var data = response.data;
-
-          var parser = new DOMParser();
-          var htmlDoc = parser.parseFromString(data, 'text/html');
-          
-          var tableRows : HTMLTableRowElement[] = Array.from(htmlDoc.querySelectorAll('tr.even'));
-          tableRows.forEach((row : HTMLTableRowElement, i, tr) => {
-            var line = row.querySelectorAll("td > ul > li > a")[0].innerHTML.trim();
-            var time = row.querySelectorAll("td > i")[0].innerHTML.trim();
-            var destination = row.querySelectorAll("td")[0].innerText
-                              .replace(line, "")
-                              .replace(time, "")
-                              .replace("-", "")
-                              .trim()
-                              .toLocaleLowerCase();
-            result.newBuses.push({time, line, destination});
-          });
-
-          result.buses = result.newBuses;
-          result.newBuses = [];
-
+        .then((response : any[]) => {
+          result.buses = response;
           result.isRefreshing = false;
-
           console.log(result);
         })
     });
