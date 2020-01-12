@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { StopProvider } from '../../providers/stop/stop';
 import { Stop, Bus } from '../../providers/stop/class';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'page-home',
@@ -12,10 +13,19 @@ export class HomePage {
   searchedStops: Array<string> = [];
   @ViewChild("stopInput") stopInput;
 
-  constructor(public navCtrl: NavController, public stopProvider: StopProvider) {
+  constructor(public navCtrl: NavController, public stopProvider: StopProvider, private storage: Storage) {
     this.listStops = [];
     this.searchedStops = [];
-    
+
+    this.storage.ready().then((local: LocalForage) => {
+      this.storage.get('search').then((data) => {
+        if (data) {
+          this.searchedStops = JSON.parse(data);
+          this.refreshStops();
+        }
+      });
+    });
+
     setInterval(() => {
       this.refreshStops();
     }, 15000);
@@ -23,9 +33,10 @@ export class HomePage {
 
   submitSearch(e) {
     var stop = this.stopInput.value.toUpperCase();
-    
+
     if (this.searchedStops.indexOf(stop) == -1) {
       this.searchedStops.push(stop);
+      this.storage.set('search', JSON.stringify(this.searchedStops));
       this.refreshStops(stop);
     }
 
@@ -36,13 +47,13 @@ export class HomePage {
     this.stopInput.value = "";
   }
 
-  refreshStops(target? : string) {
-    this.searchedStops.forEach((stop : string, idx, arr) => {
+  refreshStops(target?: string) {
+    this.searchedStops.forEach((stop: string, idx, arr) => {
       // Skip if just asked to refresh a particular stop and if this one isn't it
       if (target && target != stop) return;
 
       // Check if we already have this stop in the list (i.e. if stop card is already visible)
-      var result : Stop = this.listStops.find((element, index, obj) => element.title == stop);
+      var result: Stop = this.listStops.find((element, index, obj) => element.title == stop);
       var resultExists = !(result == undefined);
 
       // Instantiate new stop card
@@ -54,7 +65,7 @@ export class HomePage {
 
       // Request next buses information
       this.stopProvider.getStop(stop)
-        .then((response : Bus[]) => {
+        .then((response: Bus[]) => {
           result.buses = response;
           result.isRefreshing = false;
           console.log(result);
@@ -66,9 +77,10 @@ export class HomePage {
     var indexSearch = this.searchedStops.indexOf(stop.title);
     if (indexSearch > -1) {
       this.searchedStops.splice(indexSearch);
+      this.storage.set('search', JSON.stringify(this.searchedStops));
     }
 
-    var findListed : Stop = this.listStops.find((element, index, obj) => element.title == stop.title);
+    var findListed: Stop = this.listStops.find((element, index, obj) => element.title == stop.title);
     var indexListed = this.listStops.indexOf(findListed);
 
     if (findListed) {
