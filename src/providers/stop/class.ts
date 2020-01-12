@@ -38,6 +38,13 @@ export class Bus {
             this.color = Color.Orange;
         }
     }
+
+    getColor() : string {
+        var R = this.color / (256*256);
+        var G = (this.color / 256) % 256;
+        var B = this.color % 256;
+        return `rgb(${R}, ${G}, ${B})`;
+    }
 }
 
 export enum Color {
