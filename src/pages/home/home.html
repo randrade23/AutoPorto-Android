@@ -39,7 +39,7 @@
                   </ion-row>
                 </ion-list>
               </ng-container>
-              <ng-container *ngIf="item.buses.length == 0">
+              <ng-container *ngIf="item.buses.length == 0 && !item.isRefreshing">
                 <span class="warning">
                   Sem autocarros previstos nos próximos 60 minutos
                 </span>
