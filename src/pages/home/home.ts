@@ -61,4 +61,18 @@ export class HomePage {
         })
     });
   }
+
+  deleteStop(stop) {
+    var indexSearch = this.searchedStops.indexOf(stop.title);
+    if (indexSearch > -1) {
+      this.searchedStops.splice(indexSearch);
+    }
+
+    var findListed : Stop = this.listStops.find((element, index, obj) => element.title == stop.title);
+    var indexListed = this.listStops.indexOf(findListed);
+
+    if (findListed) {
+      this.listStops.splice(indexListed);
+    }
+  }
 }
