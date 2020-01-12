@@ -1,13 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { StopProvider } from '../../providers/stop/stop';
+import { Stop, Bus } from '../../providers/stop/class';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  listStops: any[] = [];
+  listStops: Stop[] = [];
   searchedStops: Array<string> = [];
   @ViewChild("stopInput") stopInput;
 
@@ -41,11 +42,11 @@ export class HomePage {
       if (target && target != stop) return;
 
       // Check if we already have this stop in the list (i.e. if stop card is already visible)
-      var result = this.listStops.find((element, index, obj) => element.title == stop);
+      var result : Stop = this.listStops.find((element, index, obj) => element.title == stop);
       var resultExists = !(result == undefined);
 
       // Instantiate new stop card
-      if (result == undefined) result = { title: stop, buses: [], isRefreshing: true };
+      if (result == undefined) result = new Stop(stop);
 
       // Add to stops list, this will show a partially loaded card on screen
       if (!resultExists) this.listStops.push(result);
@@ -53,7 +54,7 @@ export class HomePage {
 
       // Request next buses information
       this.stopProvider.getStop(stop)
-        .then((response : any[]) => {
+        .then((response : Bus[]) => {
           result.buses = response;
           result.isRefreshing = false;
           console.log(result);

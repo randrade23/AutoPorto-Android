@@ -1,6 +1,7 @@
 import { HTTP, HTTPResponse } from '@ionic-native/http';
 
 import { Injectable } from '@angular/core';
+import { Bus } from './class';
 
 /*
   Generated class for the StopProvider provider.
@@ -22,7 +23,7 @@ export class StopProvider {
         .then((response : HTTPResponse) => {
           var data = response.data;
 
-          var newBuses = [];
+          var newBuses : Bus[] = [];
 
           var parser = new DOMParser();
           var htmlDoc = parser.parseFromString(data, 'text/html');
@@ -37,7 +38,7 @@ export class StopProvider {
                               .replace("-", "")
                               .trim()
                               .toLocaleLowerCase();
-            newBuses.push({time, line, destination});
+            newBuses.push(new Bus(time, line, destination));
           });
 
           resolve(newBuses);
