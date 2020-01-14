@@ -36,11 +36,11 @@ export class HomePage {
 
     if (this.searchedStops.indexOf(stop) == -1) {
       this.searchedStops.push(stop);
-      this.storage.set('search', JSON.stringify(this.searchedStops));
       this.refreshStops(stop);
     }
 
     this.stopInput.value = "";
+    this.storage.set('search', JSON.stringify(this.searchedStops));
   }
 
   clearSearch(e) {
@@ -77,7 +77,6 @@ export class HomePage {
     var indexSearch = this.searchedStops.indexOf(stop.title);
     if (indexSearch > -1) {
       this.searchedStops.splice(indexSearch);
-      this.storage.set('search', JSON.stringify(this.searchedStops));
     }
 
     var findListed: Stop = this.listStops.find((element, index, obj) => element.title == stop.title);
@@ -86,5 +85,7 @@ export class HomePage {
     if (findListed) {
       this.listStops.splice(indexListed);
     }
+
+    this.storage.set('search', JSON.stringify(this.searchedStops));
   }
 }
