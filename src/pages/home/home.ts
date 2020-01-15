@@ -76,14 +76,14 @@ export class HomePage {
   deleteStop(stop) {
     var indexSearch = this.searchedStops.indexOf(stop.title);
     if (indexSearch > -1) {
-      this.searchedStops.splice(indexSearch);
+      this.searchedStops.splice(indexSearch, 1);
     }
 
     var findListed: Stop = this.listStops.find((element, index, obj) => element.title == stop.title);
     var indexListed = this.listStops.indexOf(findListed);
 
     if (findListed) {
-      this.listStops.splice(indexListed);
+      this.listStops.splice(indexListed, 1);
     }
 
     this.storage.set('search', JSON.stringify(this.searchedStops));
