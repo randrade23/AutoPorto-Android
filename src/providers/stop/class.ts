@@ -2,9 +2,22 @@ export class Stop {
     title : string = "";
     buses : Bus[] = [];
     isRefreshing : boolean = true;
+    isNotifying : boolean = false;
 
     constructor(title : string) {
         this.title = title;
+    }
+
+    toNotificationString() : string {
+        let buses = this.buses.map((value : Bus) => {
+            return value.toNotificationString();
+        }).join(", ");
+
+        if (buses == "") {
+            buses = "sem autocarros nos próximos 60 min";
+        }
+
+        return `${this.title} - ${buses}`;
     }
 }
 
@@ -44,6 +57,10 @@ export class Bus {
         var G = (this.color / 256) % 256;
         var B = this.color % 256;
         return `rgb(${R}, ${G}, ${B})`;
+    }
+
+    toNotificationString() : string {
+        return `${this.line} - ${this.time}`;
     }
 }
 

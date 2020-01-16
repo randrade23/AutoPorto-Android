@@ -8,6 +8,7 @@ import { HomePage } from '../pages/home/home';
 import { StopProvider } from '../providers/stop/stop';
 import { HTTP } from '@ionic-native/http';
 import { IonicStorageModule } from '@ionic/storage';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { IonicStorageModule } from '@ionic/storage';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     StopProvider,
-    HTTP
+    HTTP,
+    LocalNotifications
   ]
 })
 export class AppModule {}

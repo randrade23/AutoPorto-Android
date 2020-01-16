@@ -33,6 +33,14 @@
                 <ng-container *ngIf="!item.isRefreshing">
                   <span class="spinner" item-right>
                     <div>
+                      <span class="notifier">
+                        <ng-container *ngIf="!item.isNotifying">
+                          <ion-icon name="notifications-off" (click)="toggleNotifications(item)"></ion-icon>
+                        </ng-container>
+                        <ng-container *ngIf="item.isNotifying">
+                          <ion-icon name="notifications" (click)="toggleNotifications(item)"></ion-icon>
+                        </ng-container>
+                      </span>
                       <ion-icon name="refresh" (click)="refreshStops(item.title)"></ion-icon>
                     </div>
                   </span>

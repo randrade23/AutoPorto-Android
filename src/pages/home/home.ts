@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { StopProvider } from '../../providers/stop/stop';
 import { Stop, Bus } from '../../providers/stop/class';
 import { Storage } from '@ionic/storage';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 @Component({
   selector: 'page-home',
@@ -13,7 +14,7 @@ export class HomePage {
   searchedStops: Array<string> = [];
   @ViewChild("stopInput") stopInput;
 
-  constructor(public navCtrl: NavController, public stopProvider: StopProvider, private storage: Storage) {
+  constructor(public navCtrl: NavController, public stopProvider: StopProvider, private storage: Storage, private localNotifications: LocalNotifications) {
     this.listStops = [];
     this.searchedStops = [];
 
@@ -47,6 +48,29 @@ export class HomePage {
     this.stopInput.value = "";
   }
 
+  toggleNotifications(stop: Stop) {
+    this.listStops.forEach((value : Stop) => {
+      if (stop != value) {
+        value.isNotifying = false;
+      }
+    });
+    
+    stop.isNotifying = !stop.isNotifying;
+
+    if (stop.isNotifying) {
+      // Schedule delayed notification
+      this.localNotifications.schedule({
+        text: stop.toNotificationString(),
+        led: 'FF0000',
+        sound: null,
+        vibrate: false
+      });
+    }
+    else {
+      this.localNotifications.clearAll();
+    }
+  }
+
   refreshStops(target?: string) {
     this.searchedStops.forEach((stop: string, idx, arr) => {
       // Skip if just asked to refresh a particular stop and if this one isn't it
@@ -68,6 +92,17 @@ export class HomePage {
         .then((response: Bus[]) => {
           result.buses = response;
           result.isRefreshing = false;
+
+          if (result.isNotifying) {
+            // Schedule delayed notification
+            this.localNotifications.schedule({
+              text: result.toNotificationString(),
+              led: 'FF0000',
+              sound: null,
+              vibrate: false
+            });
+          }
+
           console.log(result);
         })
     });
