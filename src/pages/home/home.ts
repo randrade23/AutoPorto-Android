@@ -56,6 +56,7 @@ export class HomePage {
   scanBarcode() {
     this.barcodeScanner.scan({
       disableSuccessBeep: true,
+      showTorchButton: true,
       orientation: 'portrait',
       prompt: 'Leia o código de barras no fundo da folha do horário na paragem'
     }).then((value: BarcodeScanResult) => {
