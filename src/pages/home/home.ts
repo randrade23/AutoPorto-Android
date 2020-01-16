@@ -4,6 +4,7 @@ import { StopProvider } from '../../providers/stop/stop';
 import { Stop, Bus } from '../../providers/stop/class';
 import { Storage } from '@ionic/storage';
 import { LocalNotifications } from '@ionic-native/local-notifications';
+import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner';
 
 @Component({
   selector: 'page-home',
@@ -14,7 +15,11 @@ export class HomePage {
   searchedStops: Array<string> = [];
   @ViewChild("stopInput") stopInput;
 
-  constructor(public navCtrl: NavController, public stopProvider: StopProvider, private storage: Storage, private localNotifications: LocalNotifications) {
+  constructor(public navCtrl: NavController,
+      public stopProvider: StopProvider,
+      private storage: Storage,
+      private localNotifications: LocalNotifications,
+      private barcodeScanner: BarcodeScanner) {
     this.listStops = [];
     this.searchedStops = [];
 
@@ -48,13 +53,29 @@ export class HomePage {
     this.stopInput.value = "";
   }
 
+  scanBarcode() {
+    this.barcodeScanner.scan({
+      disableSuccessBeep: true,
+      orientation: 'portrait',
+      prompt: 'Leia o código de barras no fundo da folha do horário na paragem'
+    }).then((value: BarcodeScanResult) => {
+      if (value.cancelled) return;
+      
+      let stop = value.text.toUpperCase();
+      if (this.searchedStops.indexOf(stop) == -1) {
+        this.searchedStops.push(stop);
+        this.refreshStops(stop);
+      }
+    });
+  }
+
   toggleNotifications(stop: Stop) {
-    this.listStops.forEach((value : Stop) => {
+    this.listStops.forEach((value: Stop) => {
       if (stop != value) {
         value.isNotifying = false;
       }
     });
-    
+
     stop.isNotifying = !stop.isNotifying;
 
     if (stop.isNotifying) {

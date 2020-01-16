@@ -11,9 +11,22 @@
     <ion-row justify-content-center align-items-center style='height: 100%'>
       <ion-col col-12>
         <form (ngSubmit)="submitSearch($event)">
-          <ion-searchbar #stopInput [(ngModel)]="searchQuery" [ngModelOptions]="{standalone: true}"
-            [showCancelButton]="true" placeholder="Código da paragem" (ionCancel)="clearSearch($event)">
-          </ion-searchbar>
+          <ion-grid justify-content-center align-items-center padding-bottom style='height: 100%'>
+            <ion-row justify-content-center align-items-center style='height: 100%'>
+              <ion-col col-10>
+                <ion-searchbar #stopInput [(ngModel)]="searchQuery" [ngModelOptions]="{standalone: true}"
+                  [showCancelButton]="true" placeholder="Código da paragem" (ionCancel)="clearSearch($event)">
+                </ion-searchbar>
+              </ion-col>
+              <ion-col col-2>
+                <ion-buttons>
+                  <button ion-button type="button">
+                    <ion-icon name="barcode" (click)="scanBarcode()"></ion-icon>
+                  </button>
+                </ion-buttons>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
         </form>
         <ng-container *ngIf="listStops.length > 0">
           <ion-card *ngFor="let item of listStops">
@@ -49,7 +62,8 @@
               <ng-container *ngIf="item.buses.length > 0">
                 <ion-list *ngFor="let bus of item.buses">
                   <ion-row>
-                    <ion-col size="1" class="line"><span [style.background-color]="bus.getColor()">{{ bus.line }}</span></ion-col>
+                    <ion-col size="1" class="line"><span [style.background-color]="bus.getColor()">{{ bus.line }}</span>
+                    </ion-col>
                     <ion-col size="9" class="destination"><span>{{ bus.destination }}</span></ion-col>
                     <ion-col size="2" class="time">{{ bus.time }}</ion-col>
                   </ion-row>

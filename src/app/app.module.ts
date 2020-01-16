@@ -9,6 +9,7 @@ import { StopProvider } from '../providers/stop/stop';
 import { HTTP } from '@ionic-native/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { LocalNotifications } from '@ionic-native/local-notifications';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     StopProvider,
     HTTP,
-    LocalNotifications
+    LocalNotifications,
+    BarcodeScanner
   ]
 })
 export class AppModule {}
