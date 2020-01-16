@@ -62,6 +62,12 @@ export class HomePage {
       if (value.cancelled) return;
       
       let stop = value.text.toUpperCase();
+
+      if (stop.includes("HTTP")) { // QR Codes to website
+        // https://www.stcp.pt/pt/viajar/horarios/?paragem=MOD2&t=smsbus
+        stop = stop.split("=")[1].split("&")[0];
+      }
+
       if (this.searchedStops.indexOf(stop) == -1) {
         this.searchedStops.push(stop);
         this.refreshStops(stop);
