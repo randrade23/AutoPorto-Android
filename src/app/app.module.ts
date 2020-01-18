@@ -10,6 +10,15 @@ import { HTTP } from '@ionic-native/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader } from '@ngx-translate/core';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { Globalization } from '@ionic-native/globalization';
+
+export function setTranslateLoader(http: HttpClient) {
+ return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -19,7 +28,15 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (setTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -29,6 +46,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
   providers: [
     StatusBar,
     SplashScreen,
+    Globalization,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     StopProvider,
     HTTP,

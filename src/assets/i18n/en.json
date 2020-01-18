@@ -1,0 +1,6 @@
+{
+    "stopcode": "Bus stop code",
+    "noBusWarning": "No buses expected in the next 60 minutes",
+    "noBusShortWarning": "no buses in next 60 minutes",
+    "barcodeScanner": "Scan the barcode or the QR code in the bus stop timetable"
+}

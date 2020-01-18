@@ -1,0 +1,6 @@
+{
+    "stopcode": "Código da paragem",
+    "noBusWarning": "Sem autocarros previstos nos próximos 60 minutos",
+    "noBusShortWarning": "sem autocarros em 60 min",
+    "barcodeScanner": "Leia o código de barras ou código QR presente no horário da paragem"
+}

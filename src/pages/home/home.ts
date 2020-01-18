@@ -5,6 +5,7 @@ import { Stop, Bus } from '../../providers/stop/class';
 import { Storage } from '@ionic/storage';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'page-home',
@@ -16,10 +17,11 @@ export class HomePage {
   @ViewChild("stopInput") stopInput;
 
   constructor(public navCtrl: NavController,
-      public stopProvider: StopProvider,
-      private storage: Storage,
-      private localNotifications: LocalNotifications,
-      private barcodeScanner: BarcodeScanner) {
+    public stopProvider: StopProvider,
+    private storage: Storage,
+    private translate: TranslateService,
+    private localNotifications: LocalNotifications,
+    private barcodeScanner: BarcodeScanner) {
     this.listStops = [];
     this.searchedStops = [];
 
@@ -53,15 +55,16 @@ export class HomePage {
     this.stopInput.value = "";
   }
 
-  scanBarcode() {
+  async scanBarcode() {
+    let prompt = await this.translate.get('barcodeScanner').toPromise();
     this.barcodeScanner.scan({
       disableSuccessBeep: true,
       showTorchButton: true,
       orientation: 'portrait',
-      prompt: 'Leia o código de barras no fundo da folha do horário na paragem'
+      prompt
     }).then((value: BarcodeScanResult) => {
       if (value.cancelled) return;
-      
+
       let stop = value.text.toUpperCase();
 
       if (stop.includes("HTTP")) { // QR Codes to website
@@ -76,7 +79,7 @@ export class HomePage {
     });
   }
 
-  toggleNotifications(stop: Stop) {
+  async toggleNotifications(stop: Stop) {
     this.listStops.forEach((value: Stop) => {
       if (stop != value) {
         value.isNotifying = false;
@@ -85,10 +88,12 @@ export class HomePage {
 
     stop.isNotifying = !stop.isNotifying;
 
+    let text: string = await stop.toNotificationString(this.translate);
+
     if (stop.isNotifying) {
       // Schedule delayed notification
       this.localNotifications.schedule({
-        text: stop.toNotificationString(),
+        text,
         led: 'FF0000',
         sound: null,
         vibrate: false
@@ -99,7 +104,7 @@ export class HomePage {
     }
   }
 
-  refreshStops(target?: string) {
+  async refreshStops(target?: string) {
     this.searchedStops.forEach((stop: string, idx, arr) => {
       // Skip if just asked to refresh a particular stop and if this one isn't it
       if (target && target != stop) return;
@@ -117,14 +122,16 @@ export class HomePage {
 
       // Request next buses information
       this.stopProvider.getStop(stop)
-        .then((response: Bus[]) => {
+        .then(async (response: Bus[]) => {
           result.buses = response;
           result.isRefreshing = false;
+
+          let text: string = await result.toNotificationString(this.translate);
 
           if (result.isNotifying) {
             // Schedule delayed notification
             this.localNotifications.schedule({
-              text: result.toNotificationString(),
+              text,
               led: 'FF0000',
               sound: null,
               vibrate: false

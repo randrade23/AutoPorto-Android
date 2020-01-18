@@ -15,7 +15,7 @@
             <ion-row justify-content-center align-items-center style='height: 100%'>
               <ion-col col-10>
                 <ion-searchbar #stopInput [(ngModel)]="searchQuery" [ngModelOptions]="{standalone: true}"
-                  [showCancelButton]="true" placeholder="Código da paragem" (ionCancel)="clearSearch($event)">
+                  [showCancelButton]="true" placeholder='{{"stopcode" | translate}}' (ionCancel)="clearSearch($event)">
                 </ion-searchbar>
               </ion-col>
               <ion-col col-2>
@@ -71,7 +71,7 @@
               </ng-container>
               <ng-container *ngIf="item.buses.length == 0 && !item.isRefreshing">
                 <span class="warning">
-                  Sem autocarros previstos nos próximos 60 minutos
+                  {{ "noBusWarning" | translate }}
                 </span>
               </ng-container>
             </ion-card-content>

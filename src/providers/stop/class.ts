@@ -1,3 +1,5 @@
+import { TranslateService } from "@ngx-translate/core";
+
 export class Stop {
     title : string = "";
     buses : Bus[] = [];
@@ -8,16 +10,22 @@ export class Stop {
         this.title = title;
     }
 
-    toNotificationString() : string {
-        let buses = this.buses.map((value : Bus) => {
-            return value.toNotificationString();
-        }).join(", ");
+    toNotificationString(translate: TranslateService) : Promise<string> {
+        let promise : Promise<string> = new Promise((resolve, reject) => {
+            translate.get('noBusShortWarning').toPromise().then((warning : any) => {
+                let buses = this.buses.map((value : Bus) => {
+                    return value.toNotificationString();
+                }).join(", ");
+        
+                if (buses == "") {
+                    buses = warning;
+                }
+        
+                resolve(`${this.title} - ${buses}`);
+            });
+        }); 
 
-        if (buses == "") {
-            buses = "sem autocarros nos próximos 60 min";
-        }
-
-        return `${this.title} - ${buses}`;
+        return promise;
     }
 }
 

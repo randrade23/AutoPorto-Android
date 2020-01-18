@@ -23,16 +23,20 @@
     "@ionic-native/app-version": "^4.18.0",
     "@ionic-native/barcode-scanner": "^4.20.0",
     "@ionic-native/core": "4.20.0",
+    "@ionic-native/globalization": "^4.20.0",
     "@ionic-native/http": "^4.20.0",
     "@ionic-native/local-notifications": "^4.20.0",
     "@ionic-native/splash-screen": "4.20.0",
     "@ionic-native/status-bar": "4.20.0",
     "@ionic/storage": "^2.2.0",
+    "@ngx-translate/core": "^9.1.1",
+    "@ngx-translate/http-loader": "^4.0.0",
     "cordova-android": "^8.1.0",
     "cordova-plugin-advanced-http": "^2.3.1",
     "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-badge": "^0.8.8",
     "cordova-plugin-file": "^6.0.2",
+    "cordova-plugin-globalization": "^1.11.0",
     "cordova-plugin-local-notification": "^0.9.0-beta.2",
     "cordova-sqlite-storage": "^4.0.0",
     "ionic-angular": "3.9.9",
@@ -70,7 +74,8 @@
       "cordova-plugin-local-notification": {},
       "phonegap-plugin-barcodescanner": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      }
+      },
+      "cordova-plugin-globalization": {}
     },
     "platforms": [
       "android"
