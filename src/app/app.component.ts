@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 import { HomePage } from '../pages/home/home';
 import { Globalization } from '@ionic-native/globalization';
-import { Geolocation } from '@ionic-native/geolocation';
+import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 
 @Component({
   templateUrl: 'app.html'
@@ -29,7 +29,14 @@ export class MyApp {
           translate.use('pt');
         }
 
-        splashScreen.hide();
+        // Start the Geolocation plugin so that the app itself responds faster
+        location.getCurrentPosition({ enableHighAccuracy: false, timeout: 3000 })
+          .then((position: Geoposition) => {
+            splashScreen.hide();
+          })
+          .catch((reason: any) => {
+            splashScreen.hide();
+          });
       });
     });
   }
