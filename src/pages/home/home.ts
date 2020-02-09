@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner';
 import { TranslateService } from '@ngx-translate/core';
+import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation';
 
 @Component({
   selector: 'page-home',
@@ -20,6 +21,7 @@ export class HomePage {
     public stopProvider: StopProvider,
     private storage: Storage,
     private translate: TranslateService,
+    private location: Geolocation,
     private localNotifications: LocalNotifications,
     private barcodeScanner: BarcodeScanner) {
     this.listStops = [];

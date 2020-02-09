@@ -15,6 +15,7 @@ import { TranslateLoader } from '@ngx-translate/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Globalization } from '@ionic-native/globalization';
+import { Geolocation } from '@ionic-native/geolocation';
 
 export function setTranslateLoader(http: HttpClient) {
  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -47,6 +48,7 @@ export function setTranslateLoader(http: HttpClient) {
     StatusBar,
     SplashScreen,
     Globalization,
+    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     StopProvider,
     HTTP,
