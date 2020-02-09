@@ -26,7 +26,7 @@ export class NearStopsProvider {
     return Array.from(new Set(stopNames)).slice(0, count);
   }
 
-  getNearStopsByDistance(location: Geoposition, distance: number = 500) { // Maximum distance to find stops in
+  getNearStopsByDistance(location: Geoposition, distance: number = 250) { // Maximum distance to find stops in
     let distanceMatrix = this.calculateDistanceMatrix(location);
     let stopNames = distanceMatrix.filter(x => x.distance <= distance).map(x => x.code);
 
