@@ -12,6 +12,7 @@ ion-title {
 */
 ion-card {
     border-radius: 10px !important;
+    padding-top: -5px !important;
 }
 
 ion-card-title {
@@ -56,4 +57,13 @@ span.warning {
 
 span.notifier {
     padding-right: 10px;
+}
+
+.card-content-md {
+    padding-top: 4px;
+    padding-left: 16px;
+    padding-bottom: 13px;
+    padding-right: 16px;
+    font-size: 1.4rem;
+    line-height: 1.5;
 }
