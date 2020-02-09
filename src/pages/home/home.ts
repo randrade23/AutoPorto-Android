@@ -7,6 +7,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner';
 import { TranslateService } from '@ngx-translate/core';
 import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation';
+import { NearStopsProvider } from '../../providers/near-stops/near-stops';
 
 @Component({
   selector: 'page-home',
@@ -19,6 +20,7 @@ export class HomePage {
 
   constructor(public navCtrl: NavController,
     public stopProvider: StopProvider,
+    public nearStopsProvider: NearStopsProvider,
     private storage: Storage,
     private translate: TranslateService,
     private location: Geolocation,
@@ -36,7 +38,10 @@ export class HomePage {
       });
     });
 
+    this.getNearStops();
+
     setInterval(() => {
+      this.getNearStops();
       this.refreshStops();
     }, 15000);
   }
@@ -44,10 +49,7 @@ export class HomePage {
   submitSearch(e) {
     var stop = this.stopInput.value.toUpperCase();
 
-    if (this.searchedStops.indexOf(stop) == -1) {
-      this.searchedStops.push(stop);
-      this.refreshStops(stop);
-    }
+    this.addStop(stop);
 
     this.stopInput.value = "";
     this.storage.set('search', JSON.stringify(this.searchedStops));
@@ -74,10 +76,8 @@ export class HomePage {
         stop = stop.split("=")[1].split("&")[0];
       }
 
-      if (this.searchedStops.indexOf(stop) == -1) {
-        this.searchedStops.push(stop);
-        this.refreshStops(stop);
-      }
+      this.addStop(stop);
+
     });
   }
 
@@ -143,6 +143,23 @@ export class HomePage {
           console.log(result);
         })
     });
+  }
+
+  getNearStops() {
+    this.location.getCurrentPosition({enableHighAccuracy: false, timeout: 5000})
+    .then((position: Geoposition) => {
+      let nearStops = this.nearStopsProvider.getNearStopsByDistance(position, 100);
+      nearStops.forEach((stop : string) => {
+        this.addStop(stop);
+      });
+    });
+  }
+
+  addStop(stop) {
+    if (this.searchedStops.indexOf(stop) == -1) {
+      this.searchedStops.push(stop);
+      this.refreshStops(stop);
+    }
   }
 
   deleteStop(stop) {
