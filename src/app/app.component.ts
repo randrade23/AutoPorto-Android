@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 import { HomePage } from '../pages/home/home';
 import { Globalization } from '@ionic-native/globalization';
+import { Geolocation } from '@ionic-native/geolocation';
 
 @Component({
   templateUrl: 'app.html'
@@ -12,20 +13,22 @@ import { Globalization } from '@ionic-native/globalization';
 export class MyApp {
   rootPage: any = HomePage;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, translate: TranslateService, globalization: Globalization) {
-    globalization.getPreferredLanguage().then((res : any) => {
-      translate.setDefaultLang('en');
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, translate: TranslateService, globalization: Globalization, location: Geolocation) {
+    platform.ready().then(() => {
+      // Okay, so the platform is ready and our plugins are available.
+      // Here you can do any higher level native things you might need.
 
-      res.value = res.value.split('-')[0];
+      statusBar.styleBlackOpaque();
 
-      if (res.value == 'pt') {
-        translate.use('pt');
-      }
+      globalization.getPreferredLanguage().then((res: any) => {
+        translate.setDefaultLang('en');
 
-      platform.ready().then(() => {
-        // Okay, so the platform is ready and our plugins are available.
-        // Here you can do any higher level native things you might need.
-        statusBar.styleBlackOpaque();
+        res.value = res.value.split('-')[0];
+
+        if (res.value == 'pt') {
+          translate.use('pt');
+        }
+
         splashScreen.hide();
       });
     });
