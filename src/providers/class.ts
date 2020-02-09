@@ -49,7 +49,7 @@ export class Bus {
         else if (line.startsWith("6")) {
             this.color = Color.Green;
         }
-        else if (line.startsWith("7")) {
+        else if (line.startsWith("7") || line.match(/V/i)) {
             this.color = Color.Red;
         }
         else if (line.startsWith("8")) {
