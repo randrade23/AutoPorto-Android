@@ -145,13 +145,11 @@ export class HomePage {
     });
   }
 
-  getNearStops() {
-    this.location.getCurrentPosition({enableHighAccuracy: false, timeout: 5000})
-    .then((position: Geoposition) => {
-      let nearStops = this.nearStopsProvider.getNearStopsByDistance(position, 100);
-      nearStops.forEach((stop : string) => {
-        this.addStop(stop);
-      });
+  async getNearStops() {
+    let position = await this.location.getCurrentPosition({ enableHighAccuracy: false, timeout: 5000 });
+    let nearStops = this.nearStopsProvider.getNearStopsByDistance(position, 100);
+    nearStops.forEach((stop: string) => {
+      this.addStop(stop);
     });
   }
 
