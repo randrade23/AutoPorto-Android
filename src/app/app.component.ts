@@ -34,7 +34,8 @@ export class MyApp {
           .then((position: Geoposition) => {
             splashScreen.hide();
           })
-          .catch((reason: any) => {
+          .catch((reason: any) => { 
+            // We don't really care if this request fails due to missing permissions or something
             splashScreen.hide();
           });
       });
