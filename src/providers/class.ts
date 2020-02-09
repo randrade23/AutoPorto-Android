@@ -5,6 +5,7 @@ export class Stop {
     buses : Bus[] = [];
     isRefreshing : boolean = true;
     isNotifying : boolean = false;
+    isNearby : boolean = false;
 
     constructor(title : string) {
         this.title = title;

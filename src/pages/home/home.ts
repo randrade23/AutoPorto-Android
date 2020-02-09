@@ -109,7 +109,7 @@ export class HomePage {
   }
 
   async refreshStops(target?: string) {
-    let callback = (stop: string, idx, arr) => {
+    let refresh = (stop: string, idx, arr) => {
       // Skip if just asked to refresh a particular stop and if this one isn't it
       if (target && target != stop) return;
 
@@ -123,6 +123,9 @@ export class HomePage {
       // Add to stops list, this will show a partially loaded card on screen
       if (!resultExists) this.listStops.push(result);
       else result.isRefreshing = true;
+
+      // Is it a nearby stop?
+      if (this.nearbyStops.indexOf(stop) != -1) result.isNearby = true;
 
       // Request next buses information
       this.stopProvider.getStop(stop)
@@ -146,15 +149,15 @@ export class HomePage {
         })
     };
 
-    this.nearbyStops.forEach(callback);
-    this.searchedStops.forEach(callback);
+    this.nearbyStops.forEach(refresh);
+    this.searchedStops.forEach(refresh);
   }
 
   async getNearStops() {
     let position = await this.location.getCurrentPosition({ enableHighAccuracy: false, timeout: 5000 });
     let nearStops = this.nearStopsProvider.getNearStopsByDistance(position, 100);
     nearStops.forEach((stop: string) => {
-      this.addStop(stop);
+      this.addNearbyStop(stop);
     });
   }
 
