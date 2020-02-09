@@ -32,10 +32,18 @@
           <ion-card *ngFor="let item of listStops">
             <ion-card-content>
               <ion-card-title class="ion-align-items-center">
-                <span item-left>
-                  {{ item.title }}
-                  <ion-icon class="delete" name="trash" (click)="deleteStop(item)"></ion-icon>
-                </span>
+                <ng-container *ngIf="!item.isNearby">
+                  <span item-left>
+                    {{ item.title }}
+                    <ion-icon class="delete" name="trash" (click)="deleteStop(item)"></ion-icon>
+                  </span>
+                </ng-container>
+                <ng-container *ngIf="item.isNearby">
+                  <span item-left>
+                    {{ item.title }}
+                    <ion-icon class="delete" name="navigate"></ion-icon>
+                  </span>
+                </ng-container>
                 <ng-container *ngIf="item.isRefreshing">
                   <span class="spinner" item-right>
                     <div>
