@@ -1,4 +1,10 @@
-language: node_js
+language: android
+dist: trusty
+android:
+  components:
+    - build-tools-26.0.2
+    - android-26
+    - extra
 node_js:
     - "10.19.0"
 branches:
@@ -6,5 +12,6 @@ branches:
         - master
 before_script:
     - npm install -g ionic cordova
+    - npm install
 script:
     - ionic cordova build android --prod
