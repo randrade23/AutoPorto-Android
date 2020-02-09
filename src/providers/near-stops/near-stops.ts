@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Geoposition } from '@ionic-native/geolocation';
+import { STCPStop, Distance } from '../class';
 
 /*
   Generated class for the NearStopsProvider provider.
@@ -10,7 +11,7 @@ import { Geoposition } from '@ionic-native/geolocation';
 */
 @Injectable()
 export class NearStopsProvider {
-  data: any[];
+  data: STCPStop[];
 
   constructor(public http: HttpClient) {
     fetch('./assets/stops.json').then(res => res.json())
@@ -33,19 +34,19 @@ export class NearStopsProvider {
     return Array.from(new Set(stopNames));
   }
 
-  private calculateDistanceMatrix(location: Geoposition) : any[] {
+  private calculateDistanceMatrix(location: Geoposition) : Distance[] {
     let userLatitude = location.coords.latitude;
     let userLongitude = location.coords.longitude;
 
     let distanceMatrix = [];
 
-    this.data.forEach((stcpStop : any) => {
+    this.data.forEach((stcpStop : STCPStop) => {
       let stopLatitude = stcpStop.geomdesc.coordinates[1];
       let stopLongitude = stcpStop.geomdesc.coordinates[0];
 
       let distance = this.calculateDistance(userLatitude, userLongitude, stopLatitude, stopLongitude);
 
-      let stopDistanceObject = { code: stcpStop.code, distance }
+      let stopDistanceObject : Distance = new Distance(stcpStop.code, distance);
       distanceMatrix.push(stopDistanceObject);
     });
 

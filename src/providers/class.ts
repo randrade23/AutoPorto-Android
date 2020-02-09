@@ -81,3 +81,28 @@ export enum Color {
     Orange = 0xbf7300,
     Black = 0x000000
 }
+
+export class STCPStop {
+    code : string;
+    name : string;
+    zone : string;
+    lines : any[];
+    geomdesc : Geometry;
+    mode: number;
+    address: string;
+}
+
+export class Geometry {
+    type : string;
+    coordinates: number[]
+}
+
+export class Distance {
+    code : string;
+    distance : number;
+
+    constructor (c: string, d: number) {
+        this.code = c;
+        this.distance = d;
+    }
+}
