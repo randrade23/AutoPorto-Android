@@ -16,6 +16,7 @@ import { NearStopsProvider } from '../../providers/near-stops/near-stops';
 export class HomePage {
   listStops: Stop[] = [];
   searchedStops: Array<string> = [];
+  nearbyStops: Array<string> = [];
   @ViewChild("stopInput") stopInput;
 
   constructor(public navCtrl: NavController,
@@ -28,6 +29,7 @@ export class HomePage {
     private barcodeScanner: BarcodeScanner) {
     this.listStops = [];
     this.searchedStops = [];
+    this.nearbyStops = [];
 
     this.storage.ready().then((local: LocalForage) => {
       this.storage.get('search').then((data) => {
@@ -107,7 +109,7 @@ export class HomePage {
   }
 
   async refreshStops(target?: string) {
-    this.searchedStops.forEach((stop: string, idx, arr) => {
+    let callback = (stop: string, idx, arr) => {
       // Skip if just asked to refresh a particular stop and if this one isn't it
       if (target && target != stop) return;
 
@@ -142,7 +144,10 @@ export class HomePage {
 
           console.log(result);
         })
-    });
+    };
+
+    this.nearbyStops.forEach(callback);
+    this.searchedStops.forEach(callback);
   }
 
   async getNearStops() {
@@ -154,8 +159,15 @@ export class HomePage {
   }
 
   addStop(stop) {
-    if (this.searchedStops.indexOf(stop) == -1) {
+    if (this.searchedStops.indexOf(stop) == -1 && this.nearbyStops.indexOf(stop) == -1) {
       this.searchedStops.push(stop);
+      this.refreshStops(stop);
+    }
+  }
+
+  addNearbyStop(stop) {
+    if (this.searchedStops.indexOf(stop) == -1 && this.nearbyStops.indexOf(stop) == -1) {
+      this.nearbyStops.push(stop);
       this.refreshStops(stop);
     }
   }
