@@ -1,7 +1,7 @@
 import { HTTP, HTTPResponse } from '@ionic-native/http';
 
 import { Injectable } from '@angular/core';
-import { Bus } from './class';
+import { Bus } from '../class';
 
 /*
   Generated class for the StopProvider provider.

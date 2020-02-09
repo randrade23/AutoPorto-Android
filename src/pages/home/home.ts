@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { StopProvider } from '../../providers/stop/stop';
-import { Stop, Bus } from '../../providers/stop/class';
+import { Stop, Bus } from '../../providers/class';
 import { Storage } from '@ionic/storage';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner';
