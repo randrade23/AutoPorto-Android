@@ -190,4 +190,8 @@ export class HomePage {
 
     this.storage.set('search', JSON.stringify(this.searchedStops));
   }
+
+  openSettings() {
+    this.navCtrl.push('SettingsPage');
+  }
 }
