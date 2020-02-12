@@ -1,18 +1,23 @@
-<ion-header>
+<!--<ion-header>
   <ion-navbar color='primary'>
     <ion-title color='light'>
       AutoPorto
     </ion-title>
-    <!--<ion-buttons end>
+    <ion-buttons end>
       <button ion-button icon-only (click)="openSettings()">
         <ion-icon name="options"></ion-icon>
       </button>
-    </ion-buttons>-->
+    </ion-buttons>
   </ion-navbar>
-</ion-header>
+</ion-header>-->
 
 <ion-content padding>
   <ion-grid justify-content-center align-items-center style='height: 100%'>
+    <ion-row justify-content-center align-items-center padding-bottom>
+      <ion-col col-12 text-center>
+        <img src="assets/imgs/logo-bw.png" height="150px"/>
+      </ion-col>
+    </ion-row>
     <ion-row justify-content-center align-items-center style='height: 100%'>
       <ion-col col-12>
         <form (ngSubmit)="submitSearch($event)">
@@ -31,7 +36,7 @@
                 </ion-buttons>
               </ion-col>
             </ion-row>
-            <ion-row justify-content-center align-items-center>
+            <ion-row justify-content-center align-items-center *ngIf="nearbyStops.length > 0">
               <ion-col text-center col-12>
                 <ng-container *ngIf="firstLoad">
                   <ion-spinner name="crescent"></ion-spinner>
