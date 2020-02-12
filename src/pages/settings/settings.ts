@@ -36,4 +36,7 @@ export class SettingsPage {
     console.log('ionViewDidLoad SettingsPage');
   }
 
+  toggleNearStops(event) {
+    console.log(event.target.value);
+  }
 }
