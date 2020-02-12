@@ -31,6 +31,15 @@
                 </ion-buttons>
               </ion-col>
             </ion-row>
+            <ion-row justify-content-center align-items-center>
+              <ion-col col-12>
+                <ion-buttons text-center>
+                  <button *ngFor="let nearby of nearbyStops" ion-button round outline (click)="addStop(nearby)">
+                    {{ nearby }}
+                  </button>
+                </ion-buttons>
+              </ion-col>
+            </ion-row>
           </ion-grid>
         </form>
         <ng-container *ngIf="listStops.length > 0">

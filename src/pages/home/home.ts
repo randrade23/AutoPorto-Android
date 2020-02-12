@@ -17,6 +17,8 @@ export class HomePage {
   listStops: Stop[] = [];
   searchedStops: Array<string> = [];
   nearbyStops: Array<string> = [];
+  lastLocation: Geoposition = undefined;
+
   @ViewChild("stopInput") stopInput;
 
   constructor(public navCtrl: NavController,
@@ -149,21 +151,33 @@ export class HomePage {
         })
     };
 
-    this.nearbyStops.forEach(refresh);
     this.searchedStops.forEach(refresh);
   }
 
-  async getNearStops() {
-    let position = await this.location.getCurrentPosition({ enableHighAccuracy: false, timeout: 5000 });
-    let nearStops = this.nearStopsProvider.getNearStopsByDistance(position, 100);
+  async getNearStops(cachedLocation : Geoposition = undefined) {
+    let position = cachedLocation ? cachedLocation : await this.location.getCurrentPosition({ enableHighAccuracy: false, timeout: 5000 });
+
+    this.lastLocation = position;
+
+    if (!position) return;
+
+    // Get stops in 500m which are not already in lists, and only the closest 5
+    let nearStops = this.nearStopsProvider.getNearStopsByDistance(position, 500);
+    nearStops = nearStops.filter(x => this.searchedStops.indexOf(x) == -1);
+    nearStops = nearStops.slice(0, 5);
+
+    this.nearbyStops = [];
+
     nearStops.forEach((stop: string) => {
       this.addNearbyStop(stop);
     });
   }
 
   addStop(stop) {
-    if (this.searchedStops.indexOf(stop) == -1 && this.nearbyStops.indexOf(stop) == -1) {
+    if (this.searchedStops.indexOf(stop) == -1) {
       this.searchedStops.push(stop);
+      this.nearbyStops = this.nearbyStops.filter(x => x != stop);
+      this.getNearStops(this.lastLocation);
       this.refreshStops(stop);
     }
   }
@@ -171,7 +185,6 @@ export class HomePage {
   addNearbyStop(stop) {
     if (this.searchedStops.indexOf(stop) == -1 && this.nearbyStops.indexOf(stop) == -1) {
       this.nearbyStops.push(stop);
-      this.refreshStops(stop);
     }
   }
 
@@ -187,6 +200,8 @@ export class HomePage {
     if (findListed) {
       this.listStops.splice(indexListed, 1);
     }
+
+    this.getNearStops(this.lastLocation);
 
     this.storage.set('search', JSON.stringify(this.searchedStops));
   }
