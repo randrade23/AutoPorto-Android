@@ -18,6 +18,7 @@ export class HomePage {
   searchedStops: Array<string> = [];
   nearbyStops: Array<string> = [];
   lastLocation: Geoposition = undefined;
+  firstLoad: boolean = true;
 
   @ViewChild("stopInput") stopInput;
 
@@ -159,7 +160,10 @@ export class HomePage {
 
     this.lastLocation = position;
 
-    if (!position) return;
+    if (!position) {
+      this.firstLoad = false;
+      return;
+    }
 
     // Get stops in 500m which are not already in lists, and only the closest 5
     let nearStops = this.nearStopsProvider.getNearStopsByDistance(position, 500);
@@ -171,6 +175,8 @@ export class HomePage {
     nearStops.forEach((stop: string) => {
       this.addNearbyStop(stop);
     });
+
+    this.firstLoad = false;
   }
 
   addStop(stop) {

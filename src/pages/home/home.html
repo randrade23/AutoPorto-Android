@@ -32,12 +32,18 @@
               </ion-col>
             </ion-row>
             <ion-row justify-content-center align-items-center>
-              <ion-col col-12>
-                <ion-buttons text-center>
-                  <button *ngFor="let nearby of nearbyStops" ion-button round outline (click)="addStop(nearby)">
-                    {{ nearby }}
-                  </button>
-                </ion-buttons>
+              <ion-col text-center col-12>
+                <ng-container *ngIf="firstLoad">
+                  <ion-spinner name="crescent"></ion-spinner>
+                  <p>{{"locatingNearby" | translate}}</p>
+                </ng-container>
+                <ng-container *ngIf="!firstLoad">
+                  <ion-buttons text-center>
+                    <button *ngFor="let nearby of nearbyStops" ion-button round outline (click)="addStop(nearby)">
+                      {{ nearby }}
+                    </button>
+                  </ion-buttons>
+                </ng-container>
               </ion-col>
             </ion-row>
           </ion-grid>
