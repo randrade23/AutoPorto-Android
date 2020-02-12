@@ -12,13 +12,13 @@
 </ion-header>-->
 
 <ion-content padding>
-  <ion-grid justify-content-center align-items-center style='height: 100%'>
+  <ion-grid justify-content-center align-items-center style='height: 100%; justify-content: center;'>
     <ion-row justify-content-center align-items-center padding-bottom>
       <ion-col col-12 text-center>
         <img src="assets/imgs/logo-bw.png" height="150px"/>
       </ion-col>
     </ion-row>
-    <ion-row justify-content-center align-items-center style='height: 100%'>
+    <ion-row justify-content-center align-items-center>
       <ion-col col-12>
         <form (ngSubmit)="submitSearch($event)">
           <ion-grid justify-content-center align-items-center padding-bottom style='height: 100%'>
@@ -36,7 +36,7 @@
                 </ion-buttons>
               </ion-col>
             </ion-row>
-            <ion-row justify-content-center align-items-center *ngIf="nearbyStops.length > 0">
+            <ion-row justify-content-center align-items-center *ngIf="firstLoad || nearbyStops.length > 0">
               <ion-col text-center col-12>
                 <ng-container *ngIf="firstLoad">
                   <ion-spinner name="crescent"></ion-spinner>
