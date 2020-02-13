@@ -1,6 +1,8 @@
-# AutoPorto - Android [![Build Status](https://travis-ci.com/randrade23/AutoPorto-Android.svg?token=U9qJgnd9JP3PkpQRzKCB&branch=master)](https://travis-ci.com/randrade23/AutoPorto-Android)
+# AutoPorto - Android [![Build Status](https://travis-ci.com/randrade23/AutoPorto-Android.svg?token=U9qJgnd9JP3PkpQRzKCB&branch=master)](https://travis-ci.com/randrade23/AutoPorto-Android) 
 
 _Os horários da STCP em tempo real, no seu bolso_
+
+<a href='https://play.google.com/store/apps/details?id=pt.ruiandrade.autoporto&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Disponível no Google Play' src='https://play.google.com/intl/pt-BR/badges/static/images/badges/pt_badge_web_generic.png' width="200px"/></a>
 
 ## A aplicação
 
@@ -28,3 +30,7 @@ ionic cordova build android
 ## Licença
 
 GPL v3
+
+## Legal
+
+_Google Play e o logótipo do Google Play são marcas comerciais da Google LLC_
