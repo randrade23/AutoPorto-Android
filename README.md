@@ -2,10 +2,6 @@
 
 _Os horários da STCP em tempo real, no seu bolso_
 
-<p align="center">
-  <img width="400" src="md/logo-bw.png">
-</p>
-
 ## A aplicação
 
 <p align="center">
