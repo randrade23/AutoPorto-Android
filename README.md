@@ -10,7 +10,7 @@ _Os horários da STCP em tempo real, no seu bolso_
   <img width="400" src="md/screenshot.png">
 </p>
 
-* Listagem automática das paragens próximas (~100 metros) com base na localização
+* Listagem automática das paragens próximas (~500 metros) com base na localização
 * Histórico de paragens pesquisadas
 * Leitor de código de barras / código QR para ler paragem a partir da folha de horários
 * Design simples onde é possível ao utilizador obter imediatamente a informação de uma paragem, sem menus adicionais
