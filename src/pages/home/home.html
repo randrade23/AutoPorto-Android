@@ -20,12 +20,12 @@
     </ion-row>
     <ion-row justify-content-center align-items-center>
       <ion-col col-12>
-        <form (ngSubmit)="submitSearch($event)">
+        <form>
           <ion-grid justify-content-center align-items-center padding-bottom style='height: 100%'>
             <ion-row justify-content-center align-items-center style='height: 100%'>
               <ion-col col-10>
                 <ion-searchbar #stopInput [(ngModel)]="searchQuery" [ngModelOptions]="{standalone: true}"
-                  [showCancelButton]="true" placeholder='{{"stopcode" | translate}}' (ionCancel)="clearSearch($event)">
+                  [showCancelButton]="true" placeholder='{{"stopcode" | translate}}' (ionCancel)="clearSearch($event)" (search)="submitSearch($event)">
                 </ion-searchbar>
               </ion-col>
               <ion-col col-2>
@@ -44,7 +44,7 @@
                 </ng-container>
                 <ng-container *ngIf="!firstLoad">
                   <ion-buttons text-center>
-                    <button *ngFor="let nearby of nearbyStops" ion-button round outline (click)="addStop(nearby)">
+                    <button type="button" *ngFor="let nearby of nearbyStops" ion-button round outline (click)="addStop(nearby)">
                       {{ nearby }}
                     </button>
                   </ion-buttons>

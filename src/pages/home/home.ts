@@ -52,6 +52,8 @@ export class HomePage {
   }
 
   submitSearch(e) {
+    e.target.blur();
+    
     var stop = this.stopInput.value.toUpperCase();
 
     this.addStop(stop);
