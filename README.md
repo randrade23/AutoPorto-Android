@@ -1,4 +1,4 @@
-# AutoPorto - Android [![Build Status](https://travis-ci.com/randrade23/AutoPorto-Android.svg?token=U9qJgnd9JP3PkpQRzKCB&branch=master)](https://travis-ci.com/randrade23/AutoPorto-Android) 
+# AutoPorto - Android [![Build Status](https://travis-ci.com/randrade23/AutoPorto-Android.svg?token=U9qJgnd9JP3PkpQRzKCB&branch=master)](https://travis-ci.com/randrade23/AutoPorto-Android)
 
 _Os horários da STCP em tempo real, no seu bolso_
 
