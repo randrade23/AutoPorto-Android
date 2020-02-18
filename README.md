@@ -15,6 +15,10 @@ _Os horários da STCP em tempo real, no seu bolso_
 * Leitor de código de barras / código QR para ler paragem a partir da folha de horários
 * Design simples onde é possível ao utilizador obter imediatamente a informação de uma paragem, sem menus adicionais
 
+## Os dados
+
+É só usar [esta API](https://github.com/randrade23/stcp-api).
+
 ## Como compilar
 
 * Node.js v10.19.0
