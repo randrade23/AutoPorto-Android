@@ -8,6 +8,7 @@ import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner
 import { TranslateService } from '@ngx-translate/core';
 import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation';
 import { NearStopsProvider } from '../../providers/near-stops/near-stops';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'page-home',
@@ -18,6 +19,7 @@ export class HomePage {
   searchedStops: Array<string> = [];
   nearbyStops: Array<string> = [];
   lastLocation: Geoposition = undefined;
+  locationTracker: Subscription = undefined;
   firstLoad: boolean = true;
 
   @ViewChild("stopInput") stopInput;
@@ -46,7 +48,6 @@ export class HomePage {
     this.getNearStops();
 
     setInterval(() => {
-      this.getNearStops();
       this.refreshStops();
     }, 15000);
   }
@@ -157,28 +158,35 @@ export class HomePage {
     this.searchedStops.forEach(refresh);
   }
 
-  async getNearStops(cachedLocation : Geoposition = undefined) {
-    let position = cachedLocation ? cachedLocation : await this.location.getCurrentPosition({ enableHighAccuracy: false, timeout: 5000 });
+  getNearStops(cachedLocation : Geoposition = undefined) {
+    this.firstLoad = false;
 
-    this.lastLocation = position;
+    let locationCallback = (position: Geoposition) => {
+      this.lastLocation = position;
 
-    if (!position) {
+      // Get stops in 500m which are not already in lists, and only the closest 5
+      let nearStops = this.nearStopsProvider.getNearStopsByDistance(position, 500);
+      nearStops = nearStops.filter(x => this.searchedStops.indexOf(x) == -1);
+      nearStops = nearStops.slice(0, 5);
+
+      this.nearbyStops = [];
+
+      nearStops.forEach((stop: string) => {
+        this.addNearbyStop(stop);
+      });
+
       this.firstLoad = false;
-      return;
     }
 
-    // Get stops in 500m which are not already in lists, and only the closest 5
-    let nearStops = this.nearStopsProvider.getNearStopsByDistance(position, 500);
-    nearStops = nearStops.filter(x => this.searchedStops.indexOf(x) == -1);
-    nearStops = nearStops.slice(0, 5);
-
-    this.nearbyStops = [];
-
-    nearStops.forEach((stop: string) => {
-      this.addNearbyStop(stop);
-    });
-
-    this.firstLoad = false;
+    if (cachedLocation) {
+      locationCallback(cachedLocation);
+    }
+    else {
+      let locationOptions : GeolocationOptions = {enableHighAccuracy: false, timeout: 5000};
+      this.locationTracker = this.location.watchPosition(locationOptions)
+        .filter((p) => p.coords !== undefined) //Filter Out Errors
+        .subscribe(locationCallback);
+    }
   }
 
   addStop(stop) {
