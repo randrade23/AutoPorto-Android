@@ -159,9 +159,11 @@ export class HomePage {
   }
 
   getNearStops(cachedLocation : Geoposition = undefined) {
-    this.firstLoad = false;
-
     let locationCallback = (position: Geoposition) => {
+      this.firstLoad = false;
+
+      if (!position || !position.coords) return;
+
       this.lastLocation = position;
 
       // Get stops in 500m which are not already in lists, and only the closest 5
@@ -174,18 +176,15 @@ export class HomePage {
       nearStops.forEach((stop: string) => {
         this.addNearbyStop(stop);
       });
-
-      this.firstLoad = false;
     }
 
     if (cachedLocation) {
       locationCallback(cachedLocation);
     }
     else {
-      let locationOptions : GeolocationOptions = {enableHighAccuracy: false, timeout: 5000};
+      let locationOptions : GeolocationOptions = {enableHighAccuracy: false, timeout: 2000};
       this.locationTracker = this.location.watchPosition(locationOptions)
-        .filter((p) => p.coords !== undefined) //Filter Out Errors
-        .subscribe(locationCallback);
+        .subscribe(locationCallback, (error) => console.log(error));
     }
   }
 
