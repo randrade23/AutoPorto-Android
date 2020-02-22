@@ -29,15 +29,7 @@ export class MyApp {
           translate.use('pt');
         }
 
-        // Start the Geolocation plugin so that the app itself responds faster
-        location.getCurrentPosition({ enableHighAccuracy: false, timeout: 3000 })
-          .then((position: Geoposition) => {
-            splashScreen.hide();
-          })
-          .catch((reason: any) => { 
-            // We don't really care if this request fails due to missing permissions or something
-            splashScreen.hide();
-          });
+        splashScreen.hide();
       });
     });
   }
