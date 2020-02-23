@@ -34,11 +34,13 @@ export class Bus {
     line : string = "";
     time : string = "";
     destination : string = "";
+    timeRemaining : string = "";
     color : Color = Color.Default;
 
-    constructor (time : string, line : string, destination : string) {
+    constructor (time : string, line : string, timeRemaining: string, destination : string) {
         this.line = line;
         this.time = time;
+        this.timeRemaining = timeRemaining;
         this.destination = destination;
 
         if (line.match(/M/i)) {

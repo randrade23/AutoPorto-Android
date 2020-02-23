@@ -32,13 +32,16 @@ export class StopProvider {
           tableRows.forEach((row : HTMLTableRowElement, i, tr) => {
             var line = row.querySelectorAll("td > ul > li > a")[0].innerHTML.trim();
             var time = row.querySelectorAll("td > i")[0].innerHTML.trim();
+            var remaining = row.querySelectorAll("td:nth-child(3)")[0].innerHTML
+                              .trim()
+                              .replace(/(\d+)/, "$1 "); // Add a space after the number
             var destination = row.querySelectorAll("td")[0].innerText
                               .replace(line, "")
                               .replace(time, "")
                               .replace("-", "")
                               .trim()
                               .toLocaleLowerCase();
-            newBuses.push(new Bus(time, line, destination));
+            newBuses.push(new Bus(time, line, remaining, destination));
           });
 
           resolve(newBuses);
