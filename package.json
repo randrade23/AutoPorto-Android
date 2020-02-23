@@ -1,9 +1,9 @@
 {
   "name": "AutoPorto",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
-  "private": true,
+  "version": "2.1",
+  "author": "Rui Andrade",
+  "homepage": "http://randrade23.github.io/AutoPorto-Android",
+  "private": false,
   "scripts": {
     "start": "ionic-app-scripts serve",
     "clean": "ionic-app-scripts clean",

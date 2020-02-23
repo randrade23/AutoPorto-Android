@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="pt.ruiandrade.autoporto" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="pt.ruiandrade.autoporto" version="2.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>AutoPorto</name>
     <description>Os horários da STCP em tempo real, no seu bolso</description>
     <author email="ruiandrade@outlook.com" href="http://github.com/randrade23">Rui Andrade</author>
