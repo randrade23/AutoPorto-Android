@@ -12,7 +12,7 @@ branches:
         - master
 before_script:
     - nvm install v10.19.0
-    - npm install -g ionic cordova @ionic/cli
+    - npm install -g @ionic/cli cordova 
     - npm install
 script:
     - ionic cordova build android --prod
