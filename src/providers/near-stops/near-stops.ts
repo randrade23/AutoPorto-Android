@@ -14,10 +14,15 @@ export class NearStopsProvider {
   data: STCPStop[];
 
   constructor(public http: HttpClient) {
-    fetch('./assets/stops.json').then(res => res.json())
-      .then(json => {
-        this.data = json;
-      })
+    fetch('./assets/stops.json').then(res => res.json()).then(json => this.data = json);
+  }
+
+  async loadData () {
+    if (this.data) return;
+
+    let json = await (await fetch('./assets/stops.json')).json()
+    this.data = json;
+    return this.data;
   }
 
   getNearStopsByCount(location: Geoposition, count: number = 5) {

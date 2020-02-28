@@ -159,7 +159,7 @@ export class HomePage {
   }
 
   getNearStops(cachedLocation : Geoposition = undefined) {
-    let locationCallback = (position: Geoposition) => {
+    let locationCallback = async (position: Geoposition) => {
       this.firstLoad = false;
 
       if (!position || !position.coords) return;
@@ -167,6 +167,7 @@ export class HomePage {
       this.lastLocation = position;
 
       // Get stops in 500m which are not already in lists, and only the closest 5
+      await this.nearStopsProvider.loadData();
       let nearStops = this.nearStopsProvider.getNearStopsByDistance(position, 500);
       nearStops = nearStops.filter(x => this.searchedStops.indexOf(x) == -1);
       nearStops = nearStops.slice(0, 5);
