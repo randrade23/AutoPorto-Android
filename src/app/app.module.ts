@@ -16,6 +16,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Globalization } from '@ionic-native/globalization';
 import { Geolocation } from '@ionic-native/geolocation';
+import { FirebaseAnalytics } from '@ionic-native/firebase-analytics';
 import { NearStopsProvider } from '../providers/near-stops/near-stops';
 
 export function setTranslateLoader(http: HttpClient) {
@@ -55,7 +56,8 @@ export function setTranslateLoader(http: HttpClient) {
     HTTP,
     LocalNotifications,
     BarcodeScanner,
-    NearStopsProvider
+    NearStopsProvider,
+    FirebaseAnalytics
   ]
 })
 export class AppModule {}

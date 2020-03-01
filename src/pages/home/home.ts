@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Geolocation, GeolocationOptions, Geoposition } from '@ionic-native/geolocation';
 import { NearStopsProvider } from '../../providers/near-stops/near-stops';
 import { Subscription } from 'rxjs';
+import { FirebaseAnalytics } from '@ionic-native/firebase-analytics';
 
 @Component({
   selector: 'page-home',
@@ -31,7 +32,8 @@ export class HomePage {
     private translate: TranslateService,
     private location: Geolocation,
     private localNotifications: LocalNotifications,
-    private barcodeScanner: BarcodeScanner) {
+    private barcodeScanner: BarcodeScanner,
+    private firebaseAnalytics: FirebaseAnalytics) {
     this.listStops = [];
     this.searchedStops = [];
     this.nearbyStops = [];
