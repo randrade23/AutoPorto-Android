@@ -88,9 +88,8 @@ export class HomePage {
       if (stop.includes("HTTP")) { // QR Codes to website
         // https://www.stcp.pt/pt/viajar/horarios/?paragem=MOD2&t=smsbus
         stop = stop.split("=")[1].split("&")[0];
+        this.addStop(stop);
       }
-
-      this.addStop(stop);
     });
   }
 
