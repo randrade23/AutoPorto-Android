@@ -49,6 +49,8 @@ export class HomePage {
 
     this.getNearStops();
 
+    this.reportFirebaseEvent('app_started');
+
     setInterval(() => {
       this.refreshStops();
     }, 15000);
@@ -226,5 +228,13 @@ export class HomePage {
 
   openSettings() {
     this.navCtrl.push('SettingsPage');
+  }
+
+  reportFirebaseEvent(event: string, params: string[] = []) {
+    this.firebaseAnalytics.setEnabled(true).then((res: any) => {
+      this.firebaseAnalytics.logEvent(event, {page: "home", params})
+      .then((res: any) => console.log(res))
+      .catch((error: any) => console.error(error));
+    });
   }
 }
