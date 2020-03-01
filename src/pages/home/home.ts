@@ -49,8 +49,6 @@ export class HomePage {
 
     this.getNearStops();
 
-    this.reportFirebaseEvent('app_started');
-
     setInterval(() => {
       this.refreshStops();
     }, 15000);
@@ -61,6 +59,7 @@ export class HomePage {
     
     var stop = this.stopInput.value.toUpperCase();
 
+    this.reportFirebaseEvent('stop_searched', stop);
     this.addStop(stop);
 
     this.stopInput.value = "";
@@ -69,10 +68,12 @@ export class HomePage {
 
   clearSearch(e) {
     this.stopInput.value = "";
+    this.reportFirebaseEvent('search_cleared');
   }
 
   async scanBarcode() {
     let prompt = await this.translate.get('barcodeScanner').toPromise();
+    this.reportFirebaseEvent('barcode_scanner_started');
     this.barcodeScanner.scan({
       disableSuccessBeep: true,
       showTorchButton: true,
@@ -82,6 +83,7 @@ export class HomePage {
       if (value.cancelled) return;
 
       let stop = value.text.toUpperCase();
+      this.reportFirebaseEvent('barcode_scanner_result', stop);
 
       if (stop.includes("HTTP")) { // QR Codes to website
         // https://www.stcp.pt/pt/viajar/horarios/?paragem=MOD2&t=smsbus
@@ -89,7 +91,6 @@ export class HomePage {
       }
 
       this.addStop(stop);
-
     });
   }
 
@@ -175,7 +176,7 @@ export class HomePage {
       let nearStops = this.nearStopsProvider.getNearStopsByDistance(position, 500);
       nearStops = nearStops.filter(x => this.searchedStops.indexOf(x) == -1);
       nearStops = nearStops.slice(0, 5);
-
+      
       this.nearbyStops = [];
 
       nearStops.forEach((stop: string) => {
@@ -202,6 +203,11 @@ export class HomePage {
     }
   }
 
+  addStopFromNearby(stop) {
+    this.reportFirebaseEvent('nearby_stop', stop);
+    this.addStop(stop);
+  }
+
   addNearbyStop(stop) {
     if (this.searchedStops.indexOf(stop) == -1 && this.nearbyStops.indexOf(stop) == -1) {
       this.nearbyStops.push(stop);
@@ -209,6 +215,8 @@ export class HomePage {
   }
 
   deleteStop(stop) {
+    this.reportFirebaseEvent('deleted_stop', stop.title);
+
     var indexSearch = this.searchedStops.indexOf(stop.title);
     if (indexSearch > -1) {
       this.searchedStops.splice(indexSearch, 1);
@@ -230,7 +238,7 @@ export class HomePage {
     this.navCtrl.push('SettingsPage');
   }
 
-  reportFirebaseEvent(event: string, params: string[] = []) {
+  reportFirebaseEvent(event: string, params: any = []) {
     this.firebaseAnalytics.setEnabled(true).then((res: any) => {
       this.firebaseAnalytics.logEvent(event, {page: "home", params})
       .then((res: any) => console.log(res))

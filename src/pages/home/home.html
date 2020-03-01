@@ -44,7 +44,7 @@
                 </ng-container>
                 <ng-container *ngIf="!firstLoad">
                   <ion-buttons text-center>
-                    <button type="button" *ngFor="let nearby of nearbyStops" ion-button round outline (click)="addStop(nearby)">
+                    <button type="button" *ngFor="let nearby of nearbyStops" ion-button round outline (click)="addStopFromNearby(nearby)">
                       {{ nearby }}
                     </button>
                   </ion-buttons>
